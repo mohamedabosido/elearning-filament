@@ -35,4 +35,9 @@ class Course extends TranslationModel implements HasMedia
         return $this->getFirstMediaUrl('thumbnail') ?: asset('images/default.png');
     }
 
+    public function getNameAttribute()
+    {
+        return $this->translate(app()->getLocale())->name;
+    }
+
 }

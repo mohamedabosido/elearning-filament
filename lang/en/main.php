@@ -80,4 +80,7 @@ return [
     'faq' => 'FAQ',
     'question' => 'Question',
     'answer' => 'Answer',
+    'pages' => 'Pages',
+    'page' => 'Page',
+    'content' => 'Content',
 ];

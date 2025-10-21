@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Enums\ApprovalStatus;
+use App\Http\Middleware\EnsureModelIsActive;
 use App\Models\Course;
 use App\Models\Instructor;
 use CactusGalaxy\FilamentAstrotomic\FilamentAstrotomicTranslatablePlugin;
@@ -99,6 +100,10 @@ class AdminPanelProvider extends PanelProvider
                                     ->label(__('main.faqs'))
                                     ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.faqs.*'))
                                     ->url(route('filament.admin.resources.faqs.index')),
+                                NavigationItem::make('pages')
+                                    ->label(__('main.pages'))
+                                    ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.pages.*'))
+                                    ->url(route('filament.admin.resources.pages.index')),
                             ]),
                         NavigationGroup::make('Instructors & Courses')
                             ->label(__('main.instructors_and_courses'))
@@ -158,6 +163,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                EnsureModelIsActive::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

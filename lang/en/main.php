@@ -76,4 +76,8 @@ return [
     'new_courses' => 'New Courses',
     'total_published_courses' => 'Total published courses',
     'all' => 'All',
+    'faqs' => 'FAQs',
+    'faq' => 'FAQ',
+    'question' => 'Question',
+    'answer' => 'Answer',
 ];

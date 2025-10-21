@@ -3,45 +3,45 @@
 namespace App\Filament\Resources;
 
 use App\Enums\IsActive;
-use App\Filament\Resources\LanguageResource\Pages;
-use App\Filament\Resources\LanguageResource\RelationManagers;
-use App\Models\Language;
+use App\Filament\Resources\FaqResource\Pages;
+use App\Filament\Resources\FaqResource\RelationManagers;
+use App\Models\Faq;
 use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
 use CactusGalaxy\FilamentAstrotomic\Resources\Concerns\ResourceTranslatable;
 use CactusGalaxy\FilamentAstrotomic\TranslatableTab;
 use Filament\Forms;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class LanguageResource extends Resource
+class FaqResource extends Resource
 {
     use ResourceTranslatable;
 
-    protected static ?string $model = Language::class;
+    protected static ?string $model = Faq::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-language';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function getNavigationLabel(): string
     {
-        return __('main.languages');
+        return __('main.faqs');
     }
 
     public static function getPluralLabel(): string
     {
-        return __('main.languages');
+        return __('main.faqs');
     }
 
     public static function getLabel(): string
     {
-        return __('main.language');
+        return __('main.faq');
     }
 
     public static function form(Form $form): Form
@@ -50,10 +50,13 @@ class LanguageResource extends Resource
             ->schema([
                 TranslatableTabs::make()
                     ->localeTabSchema(fn(TranslatableTab $tab) => [
-                        TextInput::make($tab->makeName('name'))
+                        TextInput::make($tab->makeName('question'))
                             ->required()
                             ->maxLength(255)
-                            ->label(__('main.name')),
+                            ->label(__('main.question')),
+                        RichEditor::make($tab->makeName('answer'))
+                            ->required()
+                            ->label(__('main.answer')),
                     ])->columnSpan(2),
                 Toggle::make('is_active')->label(__('main.status')),
             ]);
@@ -63,7 +66,7 @@ class LanguageResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('translation.name')->label(__('main.name')),
+                TextColumn::make('translation.question')->label(__('main.question')),
                 TextColumn::make('is_active')->label(__('main.status'))->badge()
                     ->formatStateUsing(fn($state) => IsActive::getDescription($state))
                     ->color(fn($state) => IsActive::getColor($state)),
@@ -75,11 +78,11 @@ class LanguageResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('delete')
-                    ->label(__('main.delete'))
-                    ->icon('heroicon-s-trash')
-                    ->action(fn($record) => $record->delete())
-                    ->color('danger')
-                    ->requiresConfirmation()
+                ->label(__('main.delete'))
+                ->icon('heroicon-s-trash')
+                ->action(fn($record) => $record->delete())
+                ->color('danger')
+                ->requiresConfirmation(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -98,9 +101,9 @@ class LanguageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLanguages::route('/'),
-            'create' => Pages\CreateLanguage::route('/create'),
-            'edit' => Pages\EditLanguage::route('/{record}/edit'),
+            'index' => Pages\ListFaqs::route('/'),
+            'create' => Pages\CreateFaq::route('/create'),
+            'edit' => Pages\EditFaq::route('/{record}/edit'),
         ];
     }
 }

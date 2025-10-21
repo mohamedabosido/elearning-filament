@@ -95,6 +95,10 @@ class AdminPanelProvider extends PanelProvider
                                     ->label(__('main.languages'))
                                     ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.languages.*'))
                                     ->url(route('filament.admin.resources.languages.index')),
+                                NavigationItem::make('faqs')
+                                    ->label(__('main.faqs'))
+                                    ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.faqs.*'))
+                                    ->url(route('filament.admin.resources.faqs.index')),
                             ]),
                         NavigationGroup::make('Instructors & Courses')
                             ->label(__('main.instructors_and_courses'))

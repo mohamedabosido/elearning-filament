@@ -14,9 +14,4 @@ class Language extends TranslationModel
     {
         return $this->hasMany(Course::class);
     }
-
-    public function getNameAttribute()
-    {
-        return $this->translate(app()->getLocale())->name;
-    }
 }

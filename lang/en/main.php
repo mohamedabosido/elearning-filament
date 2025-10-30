@@ -83,4 +83,5 @@ return [
     'pages' => 'Pages',
     'page' => 'Page',
     'content' => 'Content',
+    'files' => 'Files',
 ];

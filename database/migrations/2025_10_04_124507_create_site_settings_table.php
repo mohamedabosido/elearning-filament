@@ -29,7 +29,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        DB::statement('ALTER TABLE site_settings ADD CONSTRAINT chk_restrict_to_one_row CHECK (restrict_to_one_row = "x");');
+        // DB::statement('ALTER TABLE site_settings ADD CONSTRAINT chk_restrict_to_one_row CHECK (restrict_to_one_row = "x");');
     }
 
     /**

@@ -12,7 +12,10 @@ class Course extends TranslationModel implements HasMedia
     use InteractsWithMedia, HasFactory;
 
     public $translatedAttributes = ['title', 'description', 'duration'];
-    protected $casts = ['status' => ApprovalStatus::class];
+    protected $casts = [
+        'status' => ApprovalStatus::class,
+        'files' => 'array',
+    ];
     protected $guarded = [];
 
     public function instructor()
@@ -40,4 +43,10 @@ class Course extends TranslationModel implements HasMedia
         return $this->translate(app()->getLocale())->name;
     }
 
+    public function getFilesPathAttribute($value)
+    {
+        return $this->attributes['files'] ? array_map(function ($file) {
+            return asset('storage/' . $file);
+        }, json_decode($this->attributes['files'], true)) : [];
+    }
 }

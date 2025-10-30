@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('status')->default('waiting_for_approval');
             $table->integer('views')->default(0);
             $table->decimal('rate')->default(0);
+            $table->json('files')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();

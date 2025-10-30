@@ -14,6 +14,7 @@ use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
 use CactusGalaxy\FilamentAstrotomic\Resources\Concerns\ResourceTranslatable;
 use CactusGalaxy\FilamentAstrotomic\TranslatableTab;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\RichEditor;
@@ -146,6 +147,19 @@ class CourseResource extends Resource
                                     ->searchable()
                                     ->required(),
                             ])
+                        ]),
+                    Tab::make('Files')
+                        ->label(__('main.files'))
+                        ->icon('heroicon-o-folder-open')
+                        ->schema([
+                            FileUpload::make('files')
+                                ->label(__('main.files'))
+                                ->multiple()
+                                ->acceptedFileTypes(['video/*', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
+                                ->maxFiles(5)
+                                ->openable()
+                                ->directory('courses/files')
+                                ->reorderable()
                         ])
                 ])
             ])->columns(1);

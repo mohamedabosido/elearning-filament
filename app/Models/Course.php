@@ -23,9 +23,9 @@ class Course extends TranslationModel implements HasMedia
         return $this->belongsTo(Instructor::class);
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'course_categories');
     }
 
     public function language()

@@ -23,6 +23,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -131,11 +132,22 @@ class CourseResource extends Resource
                         ->icon('heroicon-o-link')
                         ->schema([
                             Grid::make(2)->schema([
-                                Select::make('category_id')
-                                    ->label(__('main.category'))
+                                Select::make('categories')
+                                    ->relationship('categories', 'name')
+                                    ->label(__('main.categories'))
                                     ->options(Category::all()->pluck('name', 'id'))
+                                    ->multiple()
                                     ->searchable()
-                                    ->required(),
+                                    ->createOptionForm([
+                                        Grid::make(2)->schema([
+                                            TextInput::make('ar.name')->label(__('main.name'))->required()->maxLength(255),
+                                            TextInput::make('en.name')->label(__('main.name'))->required()->maxLength(255),
+                                            Toggle::make('is_active')->label(__('main.status'))->default(true),
+                                        ]),
+                                    ])
+                                    ->createOptionUsing(function (array $data): int {
+                                        return Category::create($data)->id;
+                                    }),
                                 Select::make('language_id')
                                     ->label(__('main.language'))
                                     ->options(Language::all()->pluck('name', 'id'))
